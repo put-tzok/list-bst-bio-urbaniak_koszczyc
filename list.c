@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-unsigned int ns[] = { 10, /* TODO: fill values which will be used as lists' sizes */ };
+unsigned int ns[] = { 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000/* TODO: fill values which will be used as lists' sizes */ };
 
 // each list node contains an integer key value and pointer to next list node
 struct node {
@@ -17,23 +17,52 @@ struct node *head = NULL;
 
 
 struct node* list_insert(int value) {
-    // TODO: implement
-    return NULL;
+    // TODO: implement // struct node* new_node = (struct node*) malloc(sizeof(struct node));
+    struct node *new_node = malloc(sizeof(*new_node));
+    (*new_node).key = value;
+    (*new_node).next = head;
+    head = new_node;
+    return new_node;//? https://www.geeksforgeeks.org/linked-list-set-2-inserting-a-node/
 }
+
+struct node *tmp;
 
 struct node* list_search(int value) {
     // TODO: implement
-    return NULL;
+    tmp = head;
+    while (tmp != NULL && (*tmp).key != value)
+      tmp = (*tmp).next;
+    return tmp;
 }
 
 void list_delete(int value) {
     // TODO: implement
+    if((*head).key == value)
+      head = (*head).next;
+    else{
+      struct node *prev = head;
+      tmp = (*head).next;
+      while (tmp != NULL && (*tmp).key != value) {
+        prev = tmp;
+        tmp = (*tmp).next;
+      }
+      if(tmp != NULL)
+        (*prev).next = (*tmp).next;
+    }
 }
 
 unsigned int list_size() {
     // TODO: implement
-    return 0;
+    int size = 0;
+    tmp = head;
+    while (tmp != NULL) {
+      size = size + 1;
+      tmp = (*tmp).next;
+    }
+    return size;
 }
+
+
 
 /*
  * Fill an array with increasing values.
